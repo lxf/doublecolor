@@ -1,0 +1,26 @@
+﻿extends layout
+block content
+	div#container.container
+		for item in data
+			div.panel.panel-primary
+				div.panel-heading
+					h3.panel-title
+						| #{item.date}
+				div.panel-body
+					div.row.index_body
+						span.col-sm-1 红球1
+						span.col-sm-1 红球2
+						span.col-sm-1 红球3
+						span.col-sm-1 红球4
+						span.col-sm-1 红球5
+						span.col-sm-1 篮球1
+						span.col-sm-1 篮球2
+					div.row.index_body
+						span.col-sm-1 #{item.r1}
+						span.col-sm-1 #{item.r2}
+						span.col-sm-1 #{item.r3}
+						span.col-sm-1 #{item.r4}
+						span.col-sm-1 #{item.r5}
+						span.col-sm-1 #{item.b1}
+						span.col-sm-1 #{item.b2}
+	include footer.jade

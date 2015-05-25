@@ -1,0 +1,13 @@
+extends layout
+block content
+	-if(error)
+		.alert.alert-error
+			| #{error}
+	-else
+		div.container
+			form.form-horizontal(action='/dc/dc_import',ccept-charset='utf-8', method='post')
+				.form-group
+					button.col-xs-12.btn.btn-primary(type='submit') 导入双色球
+			form.form-horizontal(action='/dc/dlt_import',ccept-charset='utf-8', method='post')
+				.form-group
+					button.col-xs-12.btn.btn-primary(type='submit') 导入大乐透

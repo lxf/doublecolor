@@ -1,0 +1,20 @@
+a {
+  color: #00B7FF;
+}
+
+a::hover{
+  cursor: pointer;
+}
+.index_body span
+{
+  text-align: center;
+}
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 51px;
+  height: 51px;
+}
+.panel-primary {
+  margin-top: 10px;
+}
