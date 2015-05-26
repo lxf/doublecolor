@@ -20,6 +20,6 @@ DCDAO.prototype.save=function (obj,cb) {
 };
 
 DCDAO.prototype.getData= function (query, opts, callback) {
-    DCModel.find(query, '', opts, callback);
+    DCModel.find(query, '', opts, callback).sort({'no':-1});
 };
 module.exports = new DCDAO();

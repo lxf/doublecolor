@@ -104,6 +104,7 @@ exports.showDC = function (req, res, next) {
 			obj.b1 = item.b1;
 			arr.push(obj);
 		});
+		
 		res.render('dc_index', { data: arr });
 	});
 };

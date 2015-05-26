@@ -5,6 +5,7 @@ var router = express.Router();
 var dc = require('./controllers/dc');
 
 router.post('/dc/dc_import',dc.importData);
+router.post('/dc/dlt_import',dc.importDLTData);
 router.get('/loaddata',dc.showLoadData);
 
 router.get('/ssq',dc.showDC);

@@ -18,3 +18,20 @@ a::hover{
 .panel-primary {
   margin-top: 10px;
 }
+.r{
+  background: url("../images/ball_bg.png") 22px 0 no-repeat;
+}
+
+.b{
+  background: url("../images/ball_bg.png") 22px -37px no-repeat;
+}
+
+.index_body span
+{
+  height: 37px;
+}
+.a
+{
+  margin-top: 8px;
+  color:white;
+}
