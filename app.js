@@ -4,6 +4,7 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var flash = require('connect-flash');
+var schedule = require("node-schedule");
 
 var config = require('./config/config');
 
@@ -27,6 +28,16 @@ app.set('view engine', 'jade');
 app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+    var date = new Date(2015,5,27,22,24,0);
+
+    var j = schedule.scheduleJob(date, function(){
+
+　　　　console.log("执行任务");
+
+　 });
+
 
 app.use('/', approute);
 
