@@ -78,7 +78,7 @@ exports.showDLT = function (req, res, next) {
         _.each(result, function (item, index, list) {
             var obj = {};
             var str=item.date;
-            obj.date = str.getFullYear()+'-'+(str.getMonth()+1)+'-'+str.getDay();
+            obj.date = str.getFullYear()+'-'+(str.getMonth()+1)+'-'+str.getDate();
             obj.r1 = item.r1;
             obj.r2 = item.r2;
             obj.r3 = item.r3;
