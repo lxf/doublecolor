@@ -108,7 +108,7 @@ exports.showDC = function (req, res, next) {
             obj.b1 = item.b1;
             arr.push(obj);
         });
-        var temparr=_.sortBy(arr, 'no');
+        var temparr=_.sortBy(arr, 'no').reverse();
         res.render('dc_index', { data: temparr });
     });
 };
