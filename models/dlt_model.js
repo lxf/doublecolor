@@ -21,5 +21,6 @@ DLTDAO.prototype.save = function (obj, cb) {
 
 DLTDAO.prototype.getData = function (query, opts, callback) {
     DLTModel.find(query, '', opts, callback).sort({'date':-1});
+	//
 };
 module.exports = new DLTDAO();
