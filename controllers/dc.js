@@ -1,6 +1,7 @@
 var fs = require('fs');
 var async = require('async');
 var _ = require("underscore")._;
+var moment=require("moment");
 
 var DCModel = require('../models/dc_model');
 var DLTModel = require('../models/dlt_model');
@@ -76,7 +77,7 @@ exports.showDLT = function (req, res, next) {
         var arr = [];
         _.each(result, function (item, index, list) {
             var obj = {};
-            obj.date = item.date;
+            obj.date = moment(item.date.toLocaleDateString(),'YYYY-MM-DD')._i;
             obj.r1 = item.r1;
             obj.r2 = item.r2;
             obj.r3 = item.r3;
