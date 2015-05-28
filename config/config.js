@@ -15,7 +15,7 @@ var config = {
     redis_host: '127.0.0.1',
     redis_port: 8888,
     // 程序运行的端口
-    port: 1234,
+    port: 18080,
     host: '127.0.0.1',
     // 邮箱配置
     mail_opts: {

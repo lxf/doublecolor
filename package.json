@@ -1,0 +1,38 @@
+{
+  "name": "doublecolor",
+  "version": "1.0.0",
+  "description": "双色球\r 主要功能：\r 1.将双色球数据.txt导入mongodb\r 2.将大乐透数据.txt导入mongodb\r 3.显示双色球数据，路径为/ssq\r 4.显示大乐透数据,路径为/dlt\r 大蜗牛http://www.upsnail.com",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxf/doublecolor.git"
+  },
+  "author": "snail",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lxf/doublecolor/issues"
+  },
+  "homepage": "https://github.com/lxf/doublecolor",
+  "keywords": [
+    "彩票历史数据"
+  ],
+    "dependencies": {
+    "async": "*",
+    "body-parser": "*",
+    "connect-mongo": "*",
+    "express": "*",
+    "mongoose": "*",
+    "connect-flash": "*",
+    "request": "*",
+	"jade": "*",
+	"async": "*",
+	"underscore": "*",
+	"cheerio": "*",
+	"morgan": "*",
+	"node-schedule":"*"
+  },
+}

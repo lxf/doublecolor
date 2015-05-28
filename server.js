@@ -7,6 +7,7 @@ var flash = require('connect-flash');
 var schedule = require("node-schedule");
 
 var config = require('./config/config');
+var robot = require('./controllers/grab');
 
 var accessLog = fs.createWriteStream('access.log', { flags: 'a' });
 
@@ -30,14 +31,29 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-    var date = new Date(2015,5,27,22,24,0);
+//每天定时
+/*
+var rule = new schedule.RecurrenceRule();
+rule.dayOfWeek = [new schedule.Range(0, 6)];
+rule.hour = 9;
+rule.minute = 56;
 
-    var j = schedule.scheduleJob(date, function(){
+var j = schedule.scheduleJob(rule, function () {
+    console.log('begin to grab.....');
+    robot.grabHtml();
+});
+*/
 
-　　　　console.log("执行任务");
+//每小时在第八分种的时候抓取
+var schedule = require('node-schedule');
 
-　 });
+var rule = new schedule.RecurrenceRule();
+rule.minute = 30;
 
+var j = schedule.scheduleJob(rule, function () {
+    console.log('begin to grab.....');
+    robot.grabHtml();
+});
 
 app.use('/', approute);
 
@@ -68,7 +84,7 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
- app.listen(config.port, config.host, function () {
-            console.log(new Date());
-            console.log('在端口:' + app.get('port') + '监听!');
-        });
+app.listen(config.port, config.host, function () {
+    console.log(new Date());
+    console.log('在端口:' + app.get('port') + '监听!');
+});
