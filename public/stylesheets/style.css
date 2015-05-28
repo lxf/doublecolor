@@ -19,11 +19,11 @@ a::hover{
   margin-top: 10px;
 }
 .r{
-  background: url("../images/ball_bg.png") 22px 0 no-repeat;
+  background: url("../images/ball_bg.png") 30px 0 no-repeat;
 }
 
 .b{
-  background: url("../images/ball_bg.png") 22px -37px no-repeat;
+  background: url("../images/ball_bg.png") 30px -37px no-repeat;
 }
 
 .index_body span

@@ -44,7 +44,7 @@ var j = schedule.scheduleJob(rule, function () {
 });
 */
 
-//每小时在第八分种的时候抓取
+//每小时在30分种的时候抓取
 var schedule = require('node-schedule');
 
 var rule = new schedule.RecurrenceRule();
