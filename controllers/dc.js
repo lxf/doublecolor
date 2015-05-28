@@ -108,8 +108,8 @@ exports.showDC = function (req, res, next) {
             obj.b1 = item.b1;
             arr.push(obj);
         });
-        _.sortBy(arr, 'no');
-        res.render('dc_index', { data: arr });
+        var temparr=_.sortBy(arr, 'no');
+        res.render('dc_index', { data: temparr });
     });
 };
 //显示数据导入页面
