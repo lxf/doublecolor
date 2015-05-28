@@ -28,7 +28,7 @@
 	"connect-flash": "*",
 	"request": "2.54.0",
 	"jade": "*",
-	"async": "0.9.0",
+	"async": "1.0",
 	"underscore": "*",
 	"cheerio": "*",
 	"morgan": "*",
