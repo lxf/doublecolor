@@ -74,11 +74,13 @@ exports.importDLTData = function (req, res, next) {
 //显示大乐透
 exports.showDLT = function (req, res, next) {
     DLTModel.getData({}, {}, function (err, result) {
-        var arr = [];
+        var arr = [], tempmonth,tempday;
         _.each(result, function (item, index, list) {
             var obj = {};
             var str = item.date;
-            obj.date = str.getFullYear() + '-' + (str.getMonth() + 1) + '-' + str.getDate();
+            tempmonth = str.getMonth() + 1;
+            tempday=str.getDate();
+            obj.date = str.getFullYear() + '-' + (tempmonth < 10 ? ('0' + tempmonth) : tempmonth) + '-' + (tempday<10?('0'+tempday):tempday);
             obj.r1 = item.r1;
             obj.r2 = item.r2;
             obj.r3 = item.r3;
@@ -88,7 +90,8 @@ exports.showDLT = function (req, res, next) {
             obj.b2 = item.b2;
             arr.push(obj);
         });
-        res.render('dlt_index', { data: arr });
+        var temparr = _.sortBy(arr, 'date').reverse();
+        res.render('dlt_index', { data: temparr });
     });
 };
 
@@ -108,7 +111,7 @@ exports.showDC = function (req, res, next) {
             obj.b1 = item.b1;
             arr.push(obj);
         });
-        var temparr=_.sortBy(arr, 'no').reverse();
+        var temparr = _.sortBy(arr, 'no').reverse();
         res.render('dc_index', { data: temparr });
     });
 };
