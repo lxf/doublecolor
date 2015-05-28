@@ -1,7 +1,7 @@
 var fs = require('fs');
 var async = require('async');
 var _ = require("underscore")._;
-var moment=require("moment");
+var moment = require("moment");
 
 var DCModel = require('../models/dc_model');
 var DLTModel = require('../models/dlt_model');
@@ -15,29 +15,29 @@ exports.importData = function (req, res, next) {
         var linesarr = data.split(/\r?\n/);
 
         async.eachSeries(
-			linesarr,
-			function (line, callback1) {
-			    var jsonobj = {};
-			    var arr = line.split(' ');
-			    if (arr.length == 9) {
-			        jsonobj.no = arr[0];
-			        var colorarr = arr[4].split(',');
-			        jsonobj.r1 = colorarr[0];
-			        jsonobj.r2 = colorarr[1];
-			        jsonobj.r3 = colorarr[2];
-			        jsonobj.r4 = colorarr[3];
-			        jsonobj.r5 = colorarr[4];
-			        jsonobj.r6 = colorarr[5];
-			        jsonobj.b1 = colorarr[6];
-			        jsonobj.date = arr[8];
-			        DCModel.save(jsonobj);
-			    }
-			    callback1();
-			},
-			function (err) {
+            linesarr,
+            function (line, callback1) {
+                var jsonobj = {};
+                var arr = line.split(' ');
+                if (arr.length == 9) {
+                    jsonobj.no = arr[0];
+                    var colorarr = arr[4].split(',');
+                    jsonobj.r1 = colorarr[0];
+                    jsonobj.r2 = colorarr[1];
+                    jsonobj.r3 = colorarr[2];
+                    jsonobj.r4 = colorarr[3];
+                    jsonobj.r5 = colorarr[4];
+                    jsonobj.r6 = colorarr[5];
+                    jsonobj.b1 = colorarr[6];
+                    jsonobj.date = arr[8];
+                    DCModel.save(jsonobj);
+                }
+                callback1();
+            },
+            function (err) {
 
-			}
-			);
+            }
+            );
     });
 };
 
@@ -47,28 +47,28 @@ exports.importDLTData = function (req, res, next) {
         if (err) throw err;
         var linesarr = data.split(/\r?\n/);
         async.eachSeries(
-			linesarr,
-			function (line, callback1) {
-			    var jsonobj = {};
-			    var arr = line.split(' ');
-			    if (arr.length == 7) {
-			        var colorarr = arr[6].split(',');
-			        jsonobj.r1 = colorarr[0];
-			        jsonobj.r2 = colorarr[1];
-			        jsonobj.r3 = colorarr[2];
-			        jsonobj.r4 = colorarr[3];
-			        jsonobj.r5 = colorarr[4];
-			        jsonobj.b1 = colorarr[5];
-			        jsonobj.b2 = colorarr[6];
-			        jsonobj.date = arr[0];
-			        DLTModel.save(jsonobj);
-			    }
-			    callback1();
-			},
-			function (err) {
+            linesarr,
+            function (line, callback1) {
+                var jsonobj = {};
+                var arr = line.split(' ');
+                if (arr.length == 7) {
+                    var colorarr = arr[6].split(',');
+                    jsonobj.r1 = colorarr[0];
+                    jsonobj.r2 = colorarr[1];
+                    jsonobj.r3 = colorarr[2];
+                    jsonobj.r4 = colorarr[3];
+                    jsonobj.r5 = colorarr[4];
+                    jsonobj.b1 = colorarr[5];
+                    jsonobj.b2 = colorarr[6];
+                    jsonobj.date = arr[0];
+                    DLTModel.save(jsonobj);
+                }
+                callback1();
+            },
+            function (err) {
 
-			}
-			);
+            }
+            );
     });
 };
 //显示大乐透
@@ -77,8 +77,8 @@ exports.showDLT = function (req, res, next) {
         var arr = [];
         _.each(result, function (item, index, list) {
             var obj = {};
-            var str=item.date;
-            obj.date = str.getFullYear()+'-'+(str.getMonth()+1)+'-'+str.getDate();
+            var str = item.date;
+            obj.date = str.getFullYear() + '-' + (str.getMonth() + 1) + '-' + str.getDate();
             obj.r1 = item.r1;
             obj.r2 = item.r2;
             obj.r3 = item.r3;
@@ -108,7 +108,7 @@ exports.showDC = function (req, res, next) {
             obj.b1 = item.b1;
             arr.push(obj);
         });
-
+        _.sortBy(arr, 'no');
         res.render('dc_index', { data: arr });
     });
 };
