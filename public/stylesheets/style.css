@@ -1,0 +1,37 @@
+a {
+  color: #00B7FF;
+}
+
+a::hover{
+  cursor: pointer;
+}
+.index_body span
+{
+  text-align: center;
+}
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 51px;
+  height: 51px;
+}
+.panel-primary {
+  margin-top: 10px;
+}
+.r{
+  background: url("../images/ball_bg.png") 22px 0 no-repeat;
+}
+
+.b{
+  background: url("../images/ball_bg.png") 22px -37px no-repeat;
+}
+
+.index_body span
+{
+  height: 37px;
+}
+.a
+{
+  margin-top: 8px;
+  color:white;
+}
