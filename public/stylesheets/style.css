@@ -42,6 +42,14 @@ a::hover
 	margin-left: 0 !important;
 }
 
+@media screen and (min-device-width:1200px)
+{
+	.colspan p
+	{
+		padding-top: 6px;
+	}
+}
+
 @media screen and (min-device-width:768px)
 {
 	.r .a
