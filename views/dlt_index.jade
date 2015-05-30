@@ -8,26 +8,33 @@ block content
 						| #{item.date}
 				div.panel-body
 					div.row.index_body
-						span.col-sm-1 红球1
-						span.col-sm-1 红球2
-						span.col-sm-1 红球3
-						span.col-sm-1 红球4
-						span.col-sm-1 红球5
-						span.col-sm-1 篮球1
-						span.col-sm-1 篮球2
+						span.col-xs-1.colspan 红球1
+						span.col-xs-1.colspan 红球2
+						span.col-xs-1.colspan 红球3
+						span.col-xs-1.colspan 红球4
+						span.col-xs-1.colspan 红球5
+						span.col-xs-1.colspan 篮球1
+						span.col-xs-1.colspan 篮球2
 					div.row.index_body
-						span.col-sm-1.r 
-							.a #{item.r1}
-						span.col-sm-1.r 
-							.a #{item.r2}
-						span.col-sm-1.r 
-							.a #{item.r3}
-						span.col-sm-1.r 
-							.a #{item.r4}
-						span.col-sm-1.r 
-							.a #{item.r5}
-						span.col-sm-1.r 
-							.a #{item.b1}
-						span.col-sm-1.b 
-							.a #{item.b2}
+						span.col-xs-1.colspan.r 
+							.a
+								p #{item.r1}
+						span.col-xs-1.colspan.r 
+							.a
+								p #{item.r2}
+						span.col-xs-1.colspan.r 
+							.a
+								p #{item.r3}
+						span.col-xs-1.colspan.r 
+							.a
+								p #{item.r4}
+						span.col-xs-1.colspan.r 
+							.a
+								p #{item.r5}
+						span.col-xs-1.colspan.b 
+							.a
+								p #{item.b1}
+						span.col-xs-1.colspan.b 
+							.a
+								p #{item.b2}
 	include footer.jade
