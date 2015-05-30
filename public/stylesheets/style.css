@@ -104,3 +104,11 @@ a::hover
 		margin-left: 40%;
 	}
 }
+
+@media screen and (max-device-width:400px)
+{
+  .b .a,.r .a
+	{
+		margin-left: 30%;
+	}
+}
