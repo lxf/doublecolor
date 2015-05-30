@@ -9,8 +9,8 @@ var config = {
     app_keywords: '双色球',
     host: 'localhost',
     // mongodb 配置
-    //db: 'mongodb://snail:123465@ds059938.mongolab.com:59938/upsnail',
-    db:'mongodb://127.0.0.1/dc',
+    db: 'mongodb://snail:123465@ds059938.mongolab.com:59938/upsnail',
+    //db:'mongodb://127.0.0.1/dc',
     // redis 配置，默认是本地
     redis_host: '127.0.0.1',
     redis_port: 8888,
