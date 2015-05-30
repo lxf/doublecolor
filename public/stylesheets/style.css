@@ -104,11 +104,3 @@ a::hover
 		margin-left: 40%;
 	}
 }
-
-@media screen and (max-device-width:375px)
-{
-  .b .a,.r .a
-	{
-		margin-left: 0;
-	}
-}
