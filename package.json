@@ -33,6 +33,7 @@
     "morgan": "*",
     "node-schedule": "*",
     "request": "2.54.0",
-    "underscore": "*"
+    "underscore": "*",
+    "unirest": "^0.4.2"
   }
 }
