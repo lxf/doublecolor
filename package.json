@@ -2,7 +2,7 @@
   "name": "doublecolor",
   "version": "1.0.0",
   "description": "双色球\r 主要功能：\r 1.将双色球数据.txt导入mongodb\r 2.将大乐透数据.txt导入mongodb\r 3.显示双色球数据，路径为/ssq\r 4.显示大乐透数据,路径为/dlt\r 大蜗牛http://www.upsnail.com",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
