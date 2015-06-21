@@ -21,6 +21,7 @@ DCDAO.prototype.save = function (obj, cb) {
 
 DCDAO.prototype.getData = function (limitnum,query, opts, callback) {
     if (limitnum != null) {
+		console.log('应该显示20条');
 		DCModel.find(query, '', opts, callback).limit(limitnum).sort({ 'no': -1 });
 	}
 	else {
