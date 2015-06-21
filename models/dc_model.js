@@ -28,5 +28,4 @@ DCDAO.prototype.getData = function (limitnum,query, opts, callback) {
 	}
 };
 
-
 module.exports = new DCDAO();

@@ -87,7 +87,9 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
 app.listen(config.port, config.host, function () {
     console.log(new Date());
+    //
     console.log('在端口:' + app.get('port') + '监听!');
 });
