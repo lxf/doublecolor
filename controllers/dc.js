@@ -104,6 +104,7 @@ exports.showDLTAll = function (req, res, next) {
 
 function showData(limitnum,req,res,next)
 {
+    console.log(new Date()+' '+limitnum);
     DCModel.getData(limitnum,{}, {}, function (err, result) {
         var arr = [];
         _.each(result, function (item, index, list) {
