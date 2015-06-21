@@ -1,3 +1,4 @@
+/// <reference path="typings/node/node.d.ts"/>
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
@@ -5,6 +6,8 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var flash = require('connect-flash');
 var schedule = require("node-schedule");
+var http=require('http');
+
 
 var config = require('./config/config');
 var robot = require('./controllers/grab');

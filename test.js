@@ -10,15 +10,15 @@ var schedule = require("node-schedule");
 //});
 
 
-
-var rule = new schedule.RecurrenceRule();
-rule.dayOfWeek = [new schedule.Range(0, 6)];
-rule.hour = 9;
-rule.minute = 47;
-
-var j = schedule.scheduleJob(rule, function () {
-    console.log('Today is recognized by Rebecca Black!');
-});
+//
+//var rule = new schedule.RecurrenceRule();
+//rule.dayOfWeek = [new schedule.Range(0, 6)];
+//rule.hour = 9;
+//rule.minute = 47;
+//
+//var j = schedule.scheduleJob(rule, function () {
+//    console.log('Today is recognized by Rebecca Black!');
+//});
 
 
 
@@ -36,3 +36,11 @@ var j = schedule.scheduleJob(rule, function () {
 //   console.log(new Date());
 //   console.log(val);
 //}
+
+var cpus=require('os').cpus();
+console.log(cpus.length);
+
+var cp=require('child_process');
+cp.exec('node test.js',function (err,stdout,stderr) {
+    console.log('finish');
+})

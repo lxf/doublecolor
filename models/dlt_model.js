@@ -19,8 +19,12 @@ DLTDAO.prototype.save = function (obj, cb) {
 	instance.save(cb);
 };
 
-DLTDAO.prototype.getData = function (query, opts, callback) {
-    DLTModel.find(query, '', opts, callback).sort({'date':-1});
-	//
+DLTDAO.prototype.getData = function (limitnum, query, opts, callback) {
+	if (limitnum != null) {
+		DLTModel.find(query, '', opts, callback).limit(limitnum).sort({ 'date': -1 });
+	}
+	else {
+		DLTModel.find(query, '', opts, callback).sort({ 'date': -1 });
+	}
 };
 module.exports = new DLTDAO();

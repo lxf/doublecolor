@@ -11,7 +11,9 @@ router.get('/loaddata',dc.showLoadData);
 
 router.get('/', dc.showDC);
 router.get('/ssq', dc.showDC);
+router.get('/ssq/all', dc.showDCAll);
 router.get('/dlt', dc.showDLT);
+router.get('/dlt/all', dc.showDLTAll);
 
 router.get('/grab', robot.grabHtml);
 
