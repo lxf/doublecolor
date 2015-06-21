@@ -20,11 +20,6 @@ DLTDAO.prototype.save = function (obj, cb) {
 };
 
 DLTDAO.prototype.getData = function (limitnum, query, opts, callback) {
-	if (limitnum != null) {
-		DLTModel.find(query, '', opts, callback).limit(limitnum).sort({ 'date': -1 });
-	}
-	else {
-		DLTModel.find(query, '', opts, callback).sort({ 'date': -1 });
-	}
-};
+		DLTModel.find(query, '', opts, callback);
+}
 module.exports = new DLTDAO();

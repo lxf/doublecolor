@@ -72,7 +72,13 @@ exports.importDLTData = function (req, res, next) {
     });
 };
 function showDltData(limitnum,req,res,next) {
-     DLTModel.getData(limitnum,{}, {}, function (err, result) {
+     var options = {skip: 0, sort: {'no': -1}};
+    if(limitnum!=null)
+    {
+        options.limit=limitnum;
+    }
+    
+     DLTModel.getData(limitnum,{}, options, function (err, result) {
         var arr = [], tempmonth,tempday;
         _.each(result, function (item, index, list) {
             var obj = {};
@@ -104,7 +110,12 @@ exports.showDLTAll = function (req, res, next) {
 
 function showData(limitnum,req,res,next)
 {
-    DCModel.getData(limitnum,{}, {}, function (err, result) {
+    var options = {skip: 0, sort: {'no': -1}};
+    if(limitnum!=null)
+    {
+        options.limit=limitnum;
+    }
+    DCModel.getData(limitnum,{}, options, function (err, result) {
         var arr = [];
         _.each(result, function (item, index, list) {
             var obj = {};

@@ -20,12 +20,7 @@ DCDAO.prototype.save = function (obj, cb) {
 };
 
 DCDAO.prototype.getData = function (limitnum,query, opts, callback) {
-    if (limitnum != null) {
-		DCModel.find(query, '', opts, callback).limit(limitnum).sort({ 'no': -1 });
-	}
-	else {
-		//DCModel.find(query, '', opts, callback).limit(limitnum).sort({ 'no': -1 });
-	}
+		DCModel.find(query, '', opts, callback);
 };
 
 module.exports = new DCDAO();
