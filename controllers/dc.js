@@ -106,7 +106,6 @@ function showData(limitnum,req,res,next)
 {
     DCModel.getData(limitnum,{}, {}, function (err, result) {
         var arr = [];
-        console.log(result.length);
         _.each(result, function (item, index, list) {
             var obj = {};
             obj.no = item.no;
