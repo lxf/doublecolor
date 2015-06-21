@@ -24,6 +24,7 @@ DCDAO.prototype.getData = function (limitnum,query, opts, callback) {
 		DCModel.find(query, '', opts, callback).limit(limitnum).sort({ 'no': -1 });
 	}
 	else {
+		//DCModel.find(query, '', opts, callback).limit(limitnum).sort({ 'no': -1 });
 	}
 };
 
