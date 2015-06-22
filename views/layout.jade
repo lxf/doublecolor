@@ -12,13 +12,25 @@ html
 		link(rel='stylesheet', href='/stylesheets/jumbotron.css' )
 		link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.css')
 		link(rel='stylesheet', href='/stylesheets/style.css' )
-		script(src='/javascripts/jquery-1.11.1.min.js')
+		script(src='http://apps.bdimg.com/libs/jquery/1.8.0/jquery.min.js')
 		script(src='/javascripts/bootstrap.min.js') 
-		script(src='/javascripts/index.js') 
 		script(src='/javascripts/underscore/underscore.js')
+		script(src='http://apps.bdimg.com/libs/angular.js/1.4.0-beta.4/angular.min.js')
+		script(src="http://cdn.hcharts.cn/highcharts/highcharts.js")
+		script(src='/javascripts/index.js') 
 		script.
 			var cpro_id = "u2125047";
 		script(src='http://cpro.baidustatic.com/cpro/ui/f.js')
-	body
+	body(ng-app="dcapp" ng-controller='MainCtrl')
+		div.navbar.navbar-inverse.navbar-fixed-top
+				div.container
+					div.navbar-header
+						a.navbar-brand(href='/') 蜗牛福彩数据统计
+					ul.nav.navbar-nav.navbar-left.hidden-sm
+						li.dropdown
+							a.dropdown-toggle(data-toggle="dropdown",aria-expanded="false") 图表统计
+							ul.dropdown-menu
+								li 
+									a(href='ssq/img') 双色球最近20期
 	block content
 	

@@ -19,7 +19,7 @@ DCDAO.prototype.save = function (obj, cb) {
 	instance.save(cb);
 };
 
-DCDAO.prototype.getData = function (limitnum,query, opts, callback) {
+DCDAO.prototype.getData = function (query, opts, callback) {
 		DCModel.find(query, '', opts, callback);
 };
 

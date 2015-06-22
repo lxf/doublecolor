@@ -6,8 +6,6 @@ var moment = require("moment");
 var DCModel = require('../models/dc_model');
 var DLTModel = require('../models/dlt_model');
 
-
-
 //导入数据
 exports.importData = function (req, res, next) {
     fs.readFile('public/files/data.txt', 'utf8', function (err, data) {
@@ -71,21 +69,21 @@ exports.importDLTData = function (req, res, next) {
             );
     });
 };
-function showDltData(limitnum,req,res,next) {
-     var options = {skip: 0, sort: {'no': -1}};
-    if(limitnum!=null)
-    {
-        options.limit=limitnum;
+
+function showDltData(limitnum, req, res, next) {
+    var options = { skip: 0, sort: { 'no': -1 } };
+    if (limitnum != null) {
+        options.limit = limitnum;
     }
-    
-     DLTModel.getData(limitnum,{}, options, function (err, result) {
-        var arr = [], tempmonth,tempday;
+
+    DLTModel.getData({}, options, function (err, result) {
+        var arr = [], tempmonth, tempday;
         _.each(result, function (item, index, list) {
             var obj = {};
             var str = item.date;
             tempmonth = str.getMonth() + 1;
-            tempday=str.getDate();
-            obj.date = str.getFullYear() + '-' + (tempmonth < 10 ? ('0' + tempmonth) : tempmonth) + '-' + (tempday<10?('0'+tempday):tempday);
+            tempday = str.getDate();
+            obj.date = str.getFullYear() + '-' + (tempmonth < 10 ? ('0' + tempmonth) : tempmonth) + '-' + (tempday < 10 ? ('0' + tempday) : tempday);
             obj.r1 = item.r1;
             obj.r2 = item.r2;
             obj.r3 = item.r3;
@@ -98,24 +96,23 @@ function showDltData(limitnum,req,res,next) {
         var temparr = _.sortBy(arr, 'date').reverse();
         res.render('dlt_index', { data: temparr });
     });
-}
+};
+
 //显示大乐透
 exports.showDLT = function (req, res, next) {
-   showDltData(20,req,res,next);
+    showDltData(20, req, res, next);
 };
 
 exports.showDLTAll = function (req, res, next) {
-   showDltData(null,req,res,next);
+    showDltData(null, req, res, next);
 };
 
-function showData(limitnum,req,res,next)
-{
-    var options = {skip: 0, sort: {'no': -1}};
-    if(limitnum!=null)
-    {
-        options.limit=limitnum;
+function showData(limitnum, req, res, next) {
+    var options = { skip: 0, sort: { 'no': -1 } };
+    if (limitnum != null) {
+        options.limit = limitnum;
     }
-    DCModel.getData(limitnum,{}, options, function (err, result) {
+    DCModel.getData({}, options, function (err, result) {
         var arr = [];
         _.each(result, function (item, index, list) {
             var obj = {};
@@ -131,17 +128,43 @@ function showData(limitnum,req,res,next)
         });
         var temparr = _.sortBy(arr, 'no').reverse();
         res.render('dc_index', { data: temparr });
-    }); 
-}
+    });
+};
+
 //显示双色球
 exports.showDC = function (req, res, next) {
-   showData(20,req,res,next);
+    showData(20, req, res, next);
 };
+
 exports.showDCAll = function (req, res, next) {
-   showData(null,req,res,next);
+    showData(null, req, res, next);
 };
+
 //显示数据导入页面
 exports.showLoadData = function (req, res, next) {
     res.render('dc_import');
 };
 
+//显示双色球数据图表
+exports.showDCImg = function (req, res, next) {
+    res.render('dc_img');
+};
+
+//显示双色球前id期
+exports.imgDCShowLimit = function (req, res, next) {
+    if (req.params.id != undefined) {
+        var options = { skip: 0, limit: req.params.id, sort: { 'no': -1 } };
+        DCModel.getData({}, options, function (err, result) {
+          if(err)
+          {
+              return next(err);
+          }
+          res.json(result);
+        });
+    }
+};
+
+//显示大乐透前id期
+exports.imgDLTShowLimit=function (req,res,next) {
+    
+};
