@@ -1,6 +1,29 @@
+#footer {
+    background: #4E4B41;
+  z-index: 1000;
+  position: fixed;
+  border-top: 1px solid #7D7D73;
+  color: #fff;
+  text-align: center;
+  bottom: 0;
+  line-height: 30px;
+  height: 30px;
+  width: 100%;
+}
+
+
+#footer p{
+  margin: 0 0 9px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  line-height: 30px;
+  height: 30px;
+  	
+
+}
 a
 {
-	color: #00B7FF;
+	color: #fff;
 }
 
 a::hover
