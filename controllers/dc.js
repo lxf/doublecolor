@@ -150,6 +150,11 @@ exports.showDCImg = function (req, res, next) {
     res.render('dc_img');
 };
 
+//显示大乐透数据图表
+exports.showDLTImg=function (req,res,next) {
+    res.render('dlt_img');
+};
+
 //显示双色球前id期
 exports.imgDCShowLimit = function (req, res, next) {
     if (req.params.id != undefined) {
@@ -166,5 +171,14 @@ exports.imgDCShowLimit = function (req, res, next) {
 
 //显示大乐透前id期
 exports.imgDLTShowLimit=function (req,res,next) {
-    
+ if (req.params.id != undefined) {
+        var options = { skip: 0, limit: req.params.id, sort: { 'no': -1 } };
+        DLTModel.getData({}, options, function (err, result) {
+          if(err)
+          {
+              return next(err);
+          }
+          res.json(result);
+        });
+    }
 };
