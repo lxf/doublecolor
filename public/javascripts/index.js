@@ -5,78 +5,201 @@
 // 例子： 
 // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
 // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-Date.prototype.Format = function(fmt) 
-{ //author: meizz 
-  var o = { 
-    "M+" : this.getMonth()+1,                 //月份 
-    "d+" : this.getDate(),                    //日 
-    "h+" : this.getHours(),                   //小时 
-    "m+" : this.getMinutes(),                 //分 
-    "s+" : this.getSeconds(),                 //秒 
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度 
-    "S"  : this.getMilliseconds()             //毫秒 
-  }; 
-  if(/(y+)/.test(fmt)) 
-    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-  for(var k in o) 
-    if(new RegExp("("+ k +")").test(fmt)) 
-  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
-  return fmt; 
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份 
+        "d+": this.getDate(),                    //日 
+        "h+": this.getHours(),                   //小时 
+        "m+": this.getMinutes(),                 //分 
+        "s+": this.getSeconds(),                 //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds()             //毫秒 
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1,(this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1,(RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
 }
 
 var app = angular.module('dcapp', []);
 app.controller('MainCtrl', function ($scope, $http, $q, DCDataFactory) {
     var deferred = $q.defer();
-
+    //图表配置项
+    $scope.defaultOptions = {
+        title: {
+            text: '图表标题',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'www.upsnail.com',
+            x: -20
+        },
+        xAxis: {},
+        yAxis: {
+            title: {
+                text: '数值'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: []
+    };
+    //折线，每一期的号码
     $scope.showPlot = function (dctype, limitnum) {
         var promise = DCDataFactory.showLimitData(dctype, limitnum); // 同步调用，获得承诺接口  
         promise.then(
             function (data) {  // 调用承诺API获取数据 .resolve  
-                $('#container').highcharts({
+                var currentoption = {
                     title: {
-                        text: '红球与篮球走势图',
-                        x: -20 //center
-                    },
-                    subtitle: {
-                        text: 'www.upsnail.com',
-                        x: -20
+                        text: '红球与篮球走势图'
                     },
                     xAxis: {
                         categories: data.categories
                     },
-                    yAxis: {
-                        title: {
-                            text: '数值'
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }]
+                    series: data.series
+                };
+                var options = $.extend(true, {}, $scope.defaultOptions, currentoption || {});
+                $('#container').highcharts(options);
+            },
+            function (data) {  
+                // 处理错误 .reject  
+            });
+    };
+    
+    //柱状图，各个号码出现的频次统计
+    $scope.showFrequency = function (dctype, limitnum) {
+        var promise = DCDataFactory.showSimpleData(dctype, limitnum);
+        promise.then(
+            function (data) {  // 调用承诺API获取数据 .resolve  
+                //按照从1到33球的出现的频次顺序依次排序
+                var arr1 = [], arr2 = [];
+                _.each(_.sortBy(data, function (item) { return item.val; }),
+                    function (item, index, list) {
+                        arr1.push(item.key);
+                        arr2.push(item.val);
+                    });
+
+                var currentoption = {
+                    chart: {
+                        type: 'column',
+                        margin: [50, 50, 100, 80]
                     },
-                    tooltip: {
-                        valueSuffix: ''
+                    title: {
+                        text: '各个号码频次柱状统计图',
+                        x: 0
+                    },
+                    xAxis: {
+                        categories: arr1.reverse(),
+                        labels: {
+                            rotation: -45,
+                            align: 'right',
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        plotLines: []
                     },
                     legend: {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        borderWidth: 0
+                        enabled: false
                     },
-                    series:
-                    data.series
-
-                })
+                    series: [
+                        {
+                            name: 'xx',
+                            data: arr2.reverse(),
+                            dataLabels: {
+                                enabled: true,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                x: 4,
+                                y: 10,
+                                style: {
+                                    fontSize: '13px',
+                                    fontFamily: 'Verdana, sans-serif',
+                                    textShadow: '0 0 3px black'
+                                }
+                            }
+                        }]
+                };
+                var options = $.extend(true, {}, $scope.defaultOptions, currentoption || {});
+                $('#img1').highcharts(options);
             },
-            function (data) {  // 处理错误 .reject  
-            
+            function (data) {  
+                // 处理错误 .reject  
             });
-    }
+    };
 
 });
 
 app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
     return {
+        showSimpleData: function (dctype, limitnum) {
+            var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+            
+            if (dctype == 1) {
+                //双色球
+                $http.get('/ssq/' + limitnum, { cache: true })
+                    .success(function (data, status, headers, config) {
+                    if (status == 200) {
+                        var key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33];
+                        var values = [];
+                        _.each(data, function (currentitem, index, list) {
+                            for (var item in currentitem) {
+                                if (item == 'r1' ||
+                                    item == 'r2' ||
+                                    item == 'r3' ||
+                                    item == 'r4' ||
+                                    item == 'r5' ||
+                                    item == 'r6' ||
+                                    item == 'b1') {
+                                    values.push(data[0][item]);
+                                }
+                            }
+                        });
+                        var temarr = [];
+                        //step1 找出所有按照出现的频次高低降序列出球号
+                        //step2 得出所有的频次
+                        _.each(key, function (item, index, list) {
+                            var someitem = {};
+                            someitem.key = item;
+                            var res = _.countBy(values, function (num) {
+                                return num == item ? 'YES' : 'NO';
+                            });
+                            someitem.val = res.YES == undefined ? 0 : res.YES;
+                            temarr.push(someitem);
+                        });
+                        deferred.resolve(temarr);   
+                    }
+                }).error(function (data, status, headers, config) {
+                    deferred.reject(null);   // 声明执行失败，即服务器返回错误  
+                });
+            }
+
+
+            else {
+
+            }
+            return deferred.promise;   // 返回承诺，这里并不是最终数据，而是访问最终数据的API  
+            
+        },
         showLimitData: function (dctype, limitnum) {
             var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
             if (dctype == 1) {
@@ -106,7 +229,7 @@ app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
                             r6.data.push(item.r6);
                             b1.data.push(item.b1);
                         });
-                        
+
                         res.series.push(r1);
                         res.series.push(r2);
                         res.series.push(r3);
@@ -114,7 +237,7 @@ app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
                         res.series.push(r5);
                         res.series.push(r6);
                         res.series.push(b1);
-                        
+
                         res.categories.reverse();
                         deferred.resolve(res);  // 声明执行成功，即http请求数据成功，可以返回数据了 
                     }
@@ -149,7 +272,7 @@ app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
                             b1.data.push(item.b1);
                             b2.data.push(item.b2);
                         });
-                        
+
                         res.series.push(r1);
                         res.series.push(r2);
                         res.series.push(r3);
@@ -157,7 +280,7 @@ app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
                         res.series.push(r5);
                         res.series.push(b1);
                         res.series.push(b2);
-                        
+
                         res.categories.reverse();
                         deferred.resolve(res);  // 声明执行成功，即http请求数据成功，可以返回数据了 
                     }
