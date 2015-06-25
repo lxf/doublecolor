@@ -21,4 +21,4 @@
 
 大蜗牛http://www.upsnail.com<br>
 
-demo地址:caipiao.upsnail.com
+demo地址[仍在不断完善中...]:http://caipiao.upsnail.com
