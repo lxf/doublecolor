@@ -1,7 +1,7 @@
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
 // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-Date.prototype.Format = function (fmt) {  
+Date.prototype.Format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1,                 //月份 
         "d+": this.getDate(),                    //日 
@@ -17,7 +17,7 @@ Date.prototype.Format = function (fmt) {
         if (new RegExp("(" + k + ")").test(fmt))
             fmt = fmt.replace(RegExp.$1,(RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
-}
+};
 
 var app = angular.module('dcapp', []);
 app.controller('MainCtrl', function ($scope, $http, $q, DCDataFactory) {
@@ -78,78 +78,172 @@ app.controller('MainCtrl', function ($scope, $http, $q, DCDataFactory) {
     
     //柱状图，各个号码出现的频次统计
     $scope.showFrequency = function (dctype, limitnum) {
-        var promise = DCDataFactory.showSimpleData(dctype, limitnum);
-        promise.then(
+        var promisered = DCDataFactory.showSimpleRedData(dctype, limitnum),
+            promiseblue = DCDataFactory.showSimpleBlueData(dctype, limitnum),
+            currentoption = {
+                chart: {
+                    type: 'column',
+                    margin: [50, 50, 100, 80]
+                },
+                title: {
+                    text: '各个号码频次柱状统计图',
+                    x: 0
+                },
+                xAxis: {
+                    categories: [], //arr1.reverse(),
+                    labels: {
+                        rotation: -45,
+                        align: 'right',
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    plotLines: []
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [
+                    {
+                        name: '号码',
+                        data: [],//arr2.reverse(),
+                        dataLabels: {
+                            enabled: true,
+                            rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            x: 4,
+                            y: 10,
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif',
+                                textShadow: '0 0 3px black'
+                            }
+                        }
+                    }]
+            };
+        var options = $.extend(true, {}, $scope.defaultOptions, currentoption || {});
+
+        promisered.then(
             function (data) {  // 调用承诺API获取数据 .resolve  
                 //按照从1到33球的出现的频次顺序依次排序
-                var arr1 = [], arr2 = [];
+                var arr1 = [],
+                    arr2 = [];
                 _.each(_.sortBy(data, function (item) { return item.val; }),
                     function (item, index, list) {
                         arr1.push(item.key);
                         arr2.push(item.val);
                     });
 
-                var currentoption = {
-                    chart: {
-                        type: 'column',
-                        margin: [50, 50, 100, 80]
-                    },
+                var tempoption = {
                     title: {
-                        text: '各个号码频次柱状统计图',
-                        x: 0
+                        text: '双色球红球频次柱状统计图',
                     },
                     xAxis: {
-                        categories: arr1.reverse(),
-                        labels: {
-                            rotation: -45,
-                            align: 'right',
-                            style: {
-                                fontSize: '13px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
-                        }
-                    },
-                    yAxis: {
-                        min: 0,
-                        plotLines: []
-                    },
-                    legend: {
-                        enabled: false
+                        categories: arr1.reverse()
                     },
                     series: [
                         {
-                            name: 'xx',
-                            data: arr2.reverse(),
-                            dataLabels: {
-                                enabled: true,
-                                rotation: -90,
-                                color: '#FFFFFF',
-                                align: 'right',
-                                x: 4,
-                                y: 10,
-                                style: {
-                                    fontSize: '13px',
-                                    fontFamily: 'Verdana, sans-serif',
-                                    textShadow: '0 0 3px black'
-                                }
-                            }
-                        }]
+                            data: arr2.reverse()
+                        }
+                    ]
                 };
-                var options = $.extend(true, {}, $scope.defaultOptions, currentoption || {});
-                $('#img1').highcharts(options);
+                var optionnow = $.extend(true, {}, currentoption, tempoption || {});
+                if (dctype == 1) {
+                    $('#img1').highcharts(optionnow);
+                }
+                else {
+                    optionnow.title.text = '大乐透红球频次柱状统计图';
+                    $('#dlt_img1').highcharts(optionnow);
+                }
             },
             function (data) {  
                 // 处理错误 .reject  
             });
+
+        promiseblue.then(
+            function (data) {
+                var arr1 = [],
+                    arr2 = [];
+                _.each(_.sortBy(data, function (item) { return item.val; }),
+                    function (item, index, list) {
+                        arr1.push(item.key);
+                        arr2.push(item.val);
+                    });
+
+                var tempoption = {
+                    title: {
+                        text: '双色球篮球频次柱状统计图',
+                    },
+                    xAxis: {
+                        categories: arr1.reverse()
+                    },
+                    series: [
+                        {
+                            data: arr2.reverse()
+                        }
+                    ]
+                };
+                var optionnow = $.extend(true, {}, currentoption, tempoption || {});
+                if (dctype == 1) {
+                    $('#img2').highcharts(optionnow);
+                }
+                else {
+                    optionnow.title.text = '大乐透篮球频次柱状统计图';
+                    $('#dlt_img2').highcharts(optionnow);
+                }
+            }, function (data) {
+
+            });
     };
-
 });
-
 app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
     return {
-        showSimpleData: function (dctype, limitnum) {
+        //显示所有篮球出现频次的数据
+        showSimpleBlueData: function (dctype, limitnum) {
             var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
-            
+            if (dctype == 1) {
+                //双色球
+                $http.get('/ssq/' + limitnum, { cache: true })
+                    .success(function (data, status, headers, config) {
+                    if (status == 200) {
+                        var key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+                        var values = [];
+                        _.each(data, function (currentitem, index, list) {
+                            for (var item in currentitem) {
+                                if (item == 'b1') {
+                                    values.push(currentitem[item]);
+                                }
+                            }
+                        });
+                        var temarr = [];
+                        _.each(key, function (item, index, list) {
+                            var someitem = {};
+                            someitem.key = item;
+                            var res = _.countBy(values, function (num) {
+                                return num == item ? 'YES' : 'NO';
+                            });
+                            someitem.val = res.YES == undefined ? 0 : res.YES;
+                            temarr.push(someitem);
+                        });
+                        deferred.resolve(temarr);
+                    }
+                }).error(function (data, status, headers, config) {
+                    deferred.reject(null);   // 声明执行失败，即服务器返回错误  
+                });
+            }
+            else {
+                //大乐透
+            }
+            return deferred.promise;   // 返回承诺，这里并不是最终数据，而是访问最终数据的API  
+        },
+        //显示所有红球出现频次的数据
+        showSimpleRedData: function (dctype, limitnum) {
+            var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
             if (dctype == 1) {
                 //双色球
                 $http.get('/ssq/' + limitnum, { cache: true })
@@ -164,13 +258,11 @@ app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
                                     item == 'r3' ||
                                     item == 'r4' ||
                                     item == 'r5' ||
-                                    item == 'r6' ||
-                                    item == 'b1') {
+                                    item == 'r6') {
                                     values.push(currentitem[item]);
                                 }
                             }
                         });
-                        console.log(values);
                         var temarr = [];
                         //step1 找出所有按照出现的频次高低降序列出球号
                         //step2 得出所有的频次
@@ -183,19 +275,49 @@ app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
                             someitem.val = res.YES == undefined ? 0 : res.YES;
                             temarr.push(someitem);
                         });
-                        deferred.resolve(temarr);   
+                        deferred.resolve(temarr);
                     }
                 }).error(function (data, status, headers, config) {
                     deferred.reject(null);   // 声明执行失败，即服务器返回错误  
                 });
             }
-
-
             else {
-
+                //大乐透
+                $http.get('/dlt/' + limitnum, { cache: true })
+                    .success(function (data, status, headers, config) {
+                    if (status == 200) {
+                        var key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
+                        var values = [];
+                        _.each(data, function (currentitem, index, list) {
+                            for (var item in currentitem) {
+                                if (item == 'r1' ||
+                                    item == 'r2' ||
+                                    item == 'r3' ||
+                                    item == 'r4' ||
+                                    item == 'r5') {
+                                    values.push(currentitem[item]);
+                                }
+                            }
+                        });
+                        var temarr = [];
+                        //step1 找出所有按照出现的频次高低降序列出球号
+                        //step2 得出所有的频次
+                        _.each(key, function (item, index, list) {
+                            var someitem = {};
+                            someitem.key = item;
+                            var res = _.countBy(values, function (num) {
+                                return num == item ? 'YES' : 'NO';
+                            });
+                            someitem.val = res.YES == undefined ? 0 : res.YES;
+                            temarr.push(someitem);
+                        });
+                        deferred.resolve(temarr);
+                    }
+                }).error(function (data, status, headers, config) {
+                    deferred.reject(null);   // 声明执行失败，即服务器返回错误  
+                });
             }
             return deferred.promise;   // 返回承诺，这里并不是最终数据，而是访问最终数据的API  
-            
         },
         showLimitData: function (dctype, limitnum) {
             var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行

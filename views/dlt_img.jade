@@ -2,7 +2,7 @@
 block content
 	.container
 		#tools.row
-			.btn-group
+			.btn-group.left10
 				button.btn.btn-primary.dropdown-toggle(type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")显示统计图
 					span.caret
 				ul.dropdown-menu
@@ -14,5 +14,21 @@ block content
 						a(href='#' ng-click='showPlot(2,100)') 最近100期
 					li
 						a(href='#' ng-click='showPlot(2,150)') 最近150期
+			.btn-group.left10
+				button.btn.btn-info.dropdown-toggle(type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")各球频次统计图
+					span.caret
+				ul.dropdown-menu
+					li
+						a(href='#' ng-click='showFrequency(2,20)') 最近20期
+					li
+						a(href='#' ng-click='showFrequency(2,50)') 最近50期
+					li
+						a(href='#' ng-click='showFrequency(2,100)') 最近100期
+					li
+						a(href='#' ng-click='showFrequency(2,150)') 最近150期
 	div#container.container
+	p.clearp
+	div#dlt_img1.container
+	p.clearp
+	div#dlt_img2.container
 	include footer.jade
