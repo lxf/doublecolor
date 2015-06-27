@@ -15,7 +15,7 @@ block content
 					li
 						a(href='#' ng-click='showPlot(2,150)') 最近150期
 			.btn-group.left10
-				button.btn.btn-info.dropdown-toggle(type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")各球频次统计图
+				button.btn.btn-primary.dropdown-toggle(type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")各球频次统计图
 					span.caret
 				ul.dropdown-menu
 					li
@@ -26,9 +26,32 @@ block content
 						a(href='#' ng-click='showFrequency(2,100)') 最近100期
 					li
 						a(href='#' ng-click='showFrequency(2,150)') 最近150期
-	div#container.container
-	p.clearp
-	div#dlt_img1.container
-	p.clearp
-	div#dlt_img2.container
+			.btn-group.left10
+				button.btn.btn-primary.dropdown-toggle(type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")奇偶比统计图
+					span.caret
+				ul.dropdown-menu
+					li
+						a(href='#' ng-click='showEvenOdd(2,20)') 最近20期
+					li
+						a(href='#' ng-click='showEvenOdd(3,50)') 最近50期
+					li
+						a(href='#' ng-click='showEvenOdd(2,100)') 最近100期
+					li
+						a(href='#' ng-click='showEvenOdd(2,150)') 最近150期
+	.panel.panel-default
+		.panel-heading 每期号码折线统计图
+		.panel-body
+			div#container.container
+	.panel.panel-default
+		.panel-heading 红球频次统计图
+		.panel-body
+			div#dlt_img1.container
+	.panel.panel-default
+		.panel-heading 篮球频次统计图
+		.panel-body
+			div#dlt_img2.container
+	.panel.panel-default
+		.panel-heading 奇偶比统计图
+		.panel-body
+			div#dlt_img3.container
 	include footer.jade
