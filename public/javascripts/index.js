@@ -54,6 +54,51 @@ app.controller('MainCtrl', function ($scope, $http, $q, DCDataFactory) {
         },
         series: []
     };
+    //区间比
+    $scope.showRange = function (dctype, limitnum) {
+        var promise = DCDataFactory.showRangeData(dctype, limitnum);
+        promise.then(
+            function (data) {  // 调用承诺API获取数据 .resolve  
+                var currentoption = {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: '红球区间比统计图',
+                        x: 0
+                    },
+                    xAxis: {
+                        categories: data.x
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: '每期区间'
+                    },
+                    tooltip: {
+                        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br>',
+                        shared: true
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'percent'
+                        }
+                    },
+                    series: data.y
+                };
+                var options = $.extend(true, {}, $scope.defaultOptions, currentoption || {});
+                if (dctype == 1) {
+                    $('#img4').highcharts(options);
+                }
+                else {
+                    options.title.text = '大乐透区间比统计图';
+                    $('#dlt_img4').highcharts(options);
+                }
+
+            },
+            function (data) {  
+                // 处理错误 .reject  
+            });
+    };
     //奇偶比
     $scope.showEvenOdd = function (dctype, limitnum) {
         var promise = DCDataFactory.showEvenOddData(dctype, limitnum); // 同步调用，获得承诺接口  
@@ -171,7 +216,7 @@ app.controller('MainCtrl', function ($scope, $http, $q, DCDataFactory) {
                         }
                     }]
             };
-            
+
         var options = $.extend(true, {}, $scope.defaultOptions, currentoption || {});
 
         promisered.then(
@@ -249,6 +294,106 @@ app.controller('MainCtrl', function ($scope, $http, $q, DCDataFactory) {
 });
 app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
     return {
+        showRangeData: function (dctype, limitnum) {
+            var deferred = $q.defer();
+            if (dctype == 1) {
+                //双色球
+                $http.get('/ssq/' + limitnum, { cache: true })
+                    .success(function (data, status, headers, config) {
+                    if (status == 200) {
+                        var res = {};
+                        res.x = [];
+                        res.y = [{ name: '小号区', data: [] }, { name: '中号区', data: [] }, { name: '大号区', data: [] }];
+
+                        _.each(data, function (currentitem, index, list) {
+                            res.x.push(currentitem.no);
+                            var minnum = 0,
+                                midnum = 0,
+                                maxnum = 0;
+                            for (var item in currentitem) {
+                                if (item == 'r1' ||
+                                    item == 'r2' ||
+                                    item == 'r3' ||
+                                    item == 'r4' ||
+                                    item == 'r5' ||
+                                    item == 'r6') {
+                                    var num = parseInt(currentitem[item]);
+                                    if (num <= 11) {
+                                        minnum++;
+                                    }
+                                    else if (11 < num && num <= 22) {
+                                        midnum++;
+                                    }
+                                    else {
+                                        maxnum++;
+                                    }
+                                }
+                            }
+                            res.y[0].data.push(minnum);
+                            res.y[1].data.push(midnum);
+                            res.y[2].data.push(maxnum);
+                        });
+                        //反转下顺序
+                        res.x.reverse();
+                        res.y[0].data.reverse();
+                        res.y[1].data.reverse();
+                        res.y[2].data.reverse();
+                        deferred.resolve(res);
+                    }
+                }).error(function (data, status, headers, config) {
+
+                });
+            }
+            else {
+                //大乐透
+                $http.get('/dlt/' + limitnum, { cache: true })
+                    .success(function (data, status, headers, config) {
+                    if (status == 200) {
+                        var res = {};
+                        res.x = [];
+                        res.y = [{ name: '小号区', data: [] }, { name: '中号区', data: [] }, { name: '大号区', data: [] }];
+
+                        _.each(data, function (currentitem, index, list) {
+                            res.x.push(currentitem.no);
+                            var minnum = 0,
+                                midnum = 0,
+                                maxnum = 0;
+                            for (var item in currentitem) {
+                                if (item == 'r1' ||
+                                    item == 'r2' ||
+                                    item == 'r3' ||
+                                    item == 'r4' ||
+                                    item == 'r5') {
+                                    var num = parseInt(currentitem[item]);
+                                    if (num <= 12) {
+                                        minnum++;
+                                    }
+                                    else if (12 < num && num <= 23) {
+                                        midnum++;
+                                    }
+                                    else {
+                                        maxnum++;
+                                    }
+                                }
+                            }
+                            res.y[0].data.push(minnum);
+                            res.y[1].data.push(midnum);
+                            res.y[2].data.push(maxnum);
+
+                        });
+                        //反转下顺序
+                        res.x.reverse();
+                        res.y[0].data.reverse();
+                        res.y[1].data.reverse();
+                        res.y[2].data.reverse();
+                        deferred.resolve(res);
+                    }
+                }).error(function (data, status, headers, config) {
+
+                });
+            }
+            return deferred.promise;   // 返回承诺，这里并不是最终数据，而是访问最终数据的API  
+        },
         //显示奇偶比
         showEvenOddData: function (dctype, limitnum) {
             var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
@@ -379,7 +524,7 @@ app.factory('DCDataFactory', ['$http', '$q', function ($http, $q) {
                         var values = [];
                         _.each(data, function (currentitem, index, list) {
                             for (var item in currentitem) {
-                                if (item == 'b1'||item=='b2') {
+                                if (item == 'b1' || item == 'b2') {
                                     values.push(currentitem[item]);
                                 }
                             }

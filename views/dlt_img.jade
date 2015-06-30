@@ -38,6 +38,18 @@ block content
 						a(href='#' ng-click='showEvenOdd(2,100)') 最近100期
 					li
 						a(href='#' ng-click='showEvenOdd(2,150)') 最近150期
+			.btn-group.left10
+				button.btn.btn-primary.dropdown-toggle(type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")区间比统计图
+					span.caret
+				ul.dropdown-menu
+					li
+						a(href='#' ng-click='showRange(2,20)') 最近20期
+					li
+						a(href='#' ng-click='showRange(3,50)') 最近50期
+					li
+						a(href='#' ng-click='showRange(2,100)') 最近100期
+					li
+						a(href='#' ng-click='showRange(2,150)') 最近150期
 	.panel.panel-default
 		.panel-heading 每期号码折线统计图
 		.panel-body
@@ -54,4 +66,8 @@ block content
 		.panel-heading 奇偶比统计图
 		.panel-body
 			div#dlt_img3.container
+	.panel.panel-default
+		.panel-heading 区间比统计图
+		.panel-body
+			div#dlt_img4.container
 	include footer.jade
